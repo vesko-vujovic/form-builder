@@ -27,7 +27,6 @@
         {
           "id": 0,
           "new":  0,
-          "ref":  1437985494559,
           "key":  "Untitled",
           "field_type": "input",
           "index": "0",
@@ -42,15 +41,14 @@
             "is_default": "true"
           }],
           "ci_type_id": 12345,
-          "status": -1,
+          "status": 0,
           "editable": true
         },
         {
           "id": 0,
           "new":  0,
-          "ref":  1437985494559,
           "key":  "Untitled",
-          "field_type": "tamo neki",
+          "field_type": "datepicker",
           "index": 1,
           "required": true,
           "isCustom": 0,
@@ -63,7 +61,22 @@
             "is_default": "true"
           }],
           "ci_type_id": 12345,
-          "status": -1,
+          "status": 0,
+          "editable": true
+        },
+         {
+          "id": 0,
+          "new":  0,
+          "key":  "Untitled",
+          "field_type": "checkbox",
+          "index": 2,
+          "required": true,
+          "isCustom": 0,
+          "width": "",
+          "heigth": "",
+          "dropdown_choices": [],
+          "ci_type_id": 12345,
+          "status": 0,
           "editable": true
         }
       ]
