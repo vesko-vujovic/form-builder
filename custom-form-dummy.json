@@ -1,0 +1,73 @@
+{
+  "groups": [
+    {
+      "id": 0,
+      "name": "Parent 1",
+      "description": "Info for parent",
+      "isCustom": 1,
+      "status": 0,
+      "editable": false
+    },
+    {
+      "id": 0,
+      "name": "Parent 2",
+      "description": "Info for parent",
+      "isCustom": 1,
+      "status": 0,
+      "editable": false
+    },
+    {
+      "id": 0,
+      "name": "Parent 3",
+      "description": "Info for parent",
+      "isCustom": 1,
+      "status": 0,
+      "editable": true,
+      "form": [
+        {
+          "id": 0,
+          "new":  0,
+          "ref":  1437985494559,
+          "key":  "Untitled",
+          "field_type": "input",
+          "index": "0",
+          "required": true,
+          "isCustom": 0,
+          "width": "",
+          "heigth": "",
+          "dropdown_choices": [{
+            "state_id":   2,
+            "name":       "first choice",
+            "deleted":    "false",
+            "is_default": "true"
+          }],
+          "ci_type_id": 12345,
+          "status": -1,
+          "editable": true
+        },
+        {
+          "id": 0,
+          "new":  0,
+          "ref":  1437985494559,
+          "key":  "Untitled",
+          "field_type": "tamo neki",
+          "index": 1,
+          "required": true,
+          "isCustom": 0,
+          "width": "",
+          "heigth": "",
+          "dropdown_choices": [{
+            "state_id":   2,
+            "name":       "first choice",
+            "deleted":    "false",
+            "is_default": "true"
+          }],
+          "ci_type_id": 12345,
+          "status": -1,
+          "editable": true
+        }
+      ]
+    }
+  ]
+
+}
