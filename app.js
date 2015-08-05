@@ -11,7 +11,6 @@ $(document).ready(function(){
    	heigth: "50px",
    	index: 0,
    	dropdown: {
-   		state_id:    0,
         name:       "first choice",
         deleted:    "false",
         is_default: "true"
@@ -21,10 +20,6 @@ $(document).ready(function(){
     // Initialize sortable
     $(".sortable").sortable({	
     	revert: true,
-    	receive:  function(event, ui) {
-    		var typeOfField = ui.item.text();
-  	 	
-    	},
     	update: function(event, ui) {
     		var typeOfField = ui.item.text();
     	
@@ -87,11 +82,13 @@ $(document).ready(function(){
 		var yyyy = today.getFullYear();
 		today = mm+'/'+dd+'/'+yyyy;
 
+		console.log(obj);
+        
 
-    	switch(obj.field_type) {
+    	switch(obj.formInformation.field_type) {
     		case 'input': 
-    		sortable.append('<li data-type="' + obj.field_type +'" data-index="' + obj.index +'">' +
-    		'<label>' + defaults.key + '</label>' + 
+    		sortable.append('<li data-desc="'+obj.description +'" data-custom="'+ obj.isCustom +'" data-required="' +  obj.required +'" data-type="' + obj.formInformation.field_type +'" data-order="' + obj.order +'">' +
+    		'<label>' + obj.name + '</label>' + 
     		'<div>' +
     		'<input type="text" disabled=true>' + 
     		'</div>'+
@@ -99,8 +96,8 @@ $(document).ready(function(){
     		break;
 
     		case 'input-number': 
-    		sortable.append('<li data-type="' + obj.field_type +'" data-index="' + obj.index +'">' +
-    		'<label>' + defaults.key + '</label>' + 
+    		sortable.append('<li  data-desc="'+obj.description +'"  data-custom="'+ obj.isCustom +'" data-required="' +  obj.required +'" data-type="' + obj.formInformation.field_type +'" data-order="' + obj.order +'">' +
+    		'<label>' + obj.name + '</label>' + 
     		'<div>' +
     		'<input type="number" disabled=true>' + 
     		'</div>'+
@@ -108,8 +105,8 @@ $(document).ready(function(){
     		break;
 
     		case 'input-decimal':
-    		sortable.append('<li data-type="' + obj.field_type +'" data-index="' + obj.index +'">' +
-    		'<label>' + defaults.key + '</label>' + 
+    		sortable.append('<li  data-desc="'+obj.description +'"  data-custom="'+ obj.isCustom +'"  data-required="' +  obj.required +'"  data-required="'+  +'"    data-type="' + obj.formInformation.field_type +'" data-order="' + obj.order +'">' +
+    		'<label>' + obj.name + '</label>' + 
     		'<div>' +
     		'<input type="number" disabled=true step="any">' + 
     		'</div>'+
@@ -117,8 +114,8 @@ $(document).ready(function(){
     		break;
 
     		case 'textarea':
-    		sortable.append('<li data-type="' + obj.field_type +'" data-index="' + obj.index +'">' +
-    		'<label>' + defaults.key + '</label>' + 
+    		sortable.append('<li  data-desc="'+obj.description +'"  data-custom="'+ obj.isCustom +'"   data-required="' +  obj.required +'" data-type="' + obj.formInformation.field_type +'" data-order="' + obj.order +'">' +
+    		'<label>' + obj.name + '</label>' + 
     		'<div>' +
     		'<textarea draggable="false" disabled=true> </textarea>' + 
     		'</div>'+
@@ -126,17 +123,17 @@ $(document).ready(function(){
     		break;
 
     		case 'dropdown': 
-    		sortable.append('<li data-type="' + obj.field_type +'" data-index="' + obj.index +'">' +
-    		'<label>' + defaults.key + '</label>' + 
+    		sortable.append('<li  data-desc="'+obj.description +'"  data-custom="'+ obj.isCustom +'"  data-required="' +  obj.required +'" data-type="' + obj.formInformation.field_type +'" data-order="' + obj.order +'">' +
+    		'<label>' + obj.name + '</label>' + 
     		'<div>' +
-    		'<select disabled=true> <option value="'+ obj.dropdown_choices[0].state_id  +'"   >' + obj.dropdown_choices[0].name  + '</option>' + '</select>' + 
+    		'<select disabled=true> <option value="'+ obj.formInformation +'"   >' + obj.formInformation.dropdown_choices[0].name  + '</option>' + '</select>' + 
     		'</div>'+
     		'</li>');
     		break;
 
     		case 'datepicker':
-    		sortable.append('<li data-type="' + obj.field_type +'" data-index="' + obj.index +'">' +
-    		'<label>' + defaults.key + '</label>' + 
+    		sortable.append('<li  data-desc="'+obj.description +'"  data-custom="'+ obj.isCustom +'"  data-required="' +  obj.required +'" data-type="' + obj.formInformation.field_type +'" data-order="' + obj.order +'">' +
+    		'<label>' + obj.name + '</label>' + 
     		'<div>' +
     		'<input type="text" value="'+today +'" disabled=true>' + 
     		'</div>'+
@@ -144,8 +141,8 @@ $(document).ready(function(){
     		break;
 
     		case 'checkbox':
-    		sortable.append('<li data-type="' + obj.field_type +'" data-index="' + obj.index +'">' +
-    		'<label>' + obj.key + '</label>' + 
+    		sortable.append('<li  data-desc="'+obj.description +'"  data-custom="'+ obj.isCustom +'"  data-required="' +  obj.required +'" data-type="' + obj.formInformation.field_type +'" data-order="' + obj.order +'">' +
+    		'<label>' + obj.name + '</label>' + 
     		'<div>' +
     		'<input type="checkbox" disabled=true>' + 
     		'</div>'+
@@ -182,7 +179,7 @@ $(document).ready(function(){
 
     	switch(typeOfField) {
     		case 'input': 
-    		objectOfDraggedElement.replaceWith('<li data-type="' + typeOfField +'" data-index="' + defaults.index +'">' +
+    		objectOfDraggedElement.replaceWith('<li  data-desc=""  data-custom="1" data-required="false" data-type="' + typeOfField +'" data-order="' + defaults.index +'">' +
     		'<label>' + defaults.key + '</label>' + 
     		'<div>' +
     		'<input type="text" disabled=true>' + 
@@ -191,7 +188,7 @@ $(document).ready(function(){
     		break;
 
     		case 'input-number': 
-    		objectOfDraggedElement.replaceWith('<li data-type="' + typeOfField +'" data-index="' + defaults.index +'">' +
+    		objectOfDraggedElement.replaceWith('<li data-desc=""  data-custom="1" data-required="false" data-type="' + typeOfField +'" data-order="' + defaults.index +'">' +
     		'<label>' + defaults.key + '</label>' + 
     		'<div>' +
     		'<input type="number" disabled=true>' + 
@@ -200,7 +197,7 @@ $(document).ready(function(){
     		break;
 
     		case 'input-decimal':
-    		objectOfDraggedElement.replaceWith('<li data-type="' + typeOfField +'" data-index="' + defaults.index +'">' +
+    		objectOfDraggedElement.replaceWith('<li data-desc="" data-custom="1" data-required="false" data-type="' + typeOfField +'" data-order="' + defaults.index +'">' +
     		'<label>' + defaults.key + '</label>' + 
     		'<div>' +
     		'<input type="number" disabled=true step="any">' + 
@@ -209,7 +206,7 @@ $(document).ready(function(){
     		break;
 
     		case 'textarea':
-    		objectOfDraggedElement.replaceWith('<li data-type="' + typeOfField +'" data-index="' + defaults.index +'">' +
+    		objectOfDraggedElement.replaceWith('<li data-desc="" data-custom="1"  data-type="' + typeOfField +'" data-order="' + defaults.index +'">' +
     		'<label>' + defaults.key + '</label>' + 
     		'<div>' +
     		'<textarea draggable="false" disabled=true> </textarea>' + 
@@ -218,7 +215,7 @@ $(document).ready(function(){
     		break;
 
     		case 'dropdown': 
-    		objectOfDraggedElement.replaceWith('<li data-type="' + typeOfField +'" data-index="' + defaults.index +'">' +
+    		objectOfDraggedElement.replaceWith('<li data-desc="" data-dropdown="" data-custom="1" data-required="false" data-type="' + typeOfField +'" data-order="' + defaults.index +'">' +
     		'<label>' + defaults.key + '</label>' + 
     		'<div>' +
     		'<select disabled=true> <option value="'+ defaults.dropdown.state_id  +'"   >' + defaults.dropdown.name  + '</option>' + '</select>' + 
@@ -227,7 +224,7 @@ $(document).ready(function(){
     		break;
 
     		case 'datepicker':
-    		objectOfDraggedElement.replaceWith('<li data-type="' + typeOfField +'" data-index="' + defaults.index +'">' +
+    		objectOfDraggedElement.replaceWith('<li data-desc="" data-custom="1" data-required="false" data-type="' + typeOfField +'" data-order="' + defaults.index +'">' +
     		'<label>' + defaults.key + '</label>' + 
     		'<div>' +
     		'<input type="text" value="'+today +'" disabled=true>' + 
@@ -236,7 +233,7 @@ $(document).ready(function(){
     		break;
 
     		case 'checkbox':
-    		objectOfDraggedElement.replaceWith('<li data-type="' + typeOfField +'" data-index="' + defaults.index  +'">' +
+    		objectOfDraggedElement.replaceWith('<li data-desc="" data-custom="1" data-required="false" data-type="' + typeOfField +'" data-order="' + defaults.index  +'">' +
     		'<label>' + defaults.key  + '</label>' + 
     		'<div>' +
     		'<input type="checkbox" disabled=true>' + 
@@ -246,6 +243,12 @@ $(document).ready(function(){
     	}
     	
     }
+
+     $(".sortable").on('click', 'li', function() {
+     	alert('tooo');
+     });
+
+
       
 
 });
