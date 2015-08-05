@@ -23,10 +23,18 @@ $(document).ready(function(){
     	revert: true,
     	receive:  function(event, ui) {
     		var typeOfField = ui.item.text();
-    		// Render dragged field
-    		renderDraggedFields(typeOfField);
   	 	
-    	}	
+    	},
+    	update: function(event, ui) {
+    		var typeOfField = ui.item.text();
+    	
+    		// Only render new dragged elements (flag: replaced)
+    		if(!ui.item.hasClass('replaced')) {
+    			ui.item.addClass('replaced');
+    			renderDraggedFields(typeOfField, ui.item);
+    		};
+    		
+    	}
     });
 
     // Initialize  draggable
@@ -163,7 +171,7 @@ $(document).ready(function(){
     }
 
     // Render dragged fields
-    function renderDraggedFields(typeOfField, objectOfElement) {
+    function renderDraggedFields(typeOfField, objectOfDraggedElement) {
 
     	var today = new Date();
 		var dd = today.getDate();
@@ -174,7 +182,7 @@ $(document).ready(function(){
 
     	switch(typeOfField) {
     		case 'input': 
-    		sortable.append('<li data-type="' + typeOfField +'" data-index="' + defaults.index +'">' +
+    		objectOfDraggedElement.replaceWith('<li data-type="' + typeOfField +'" data-index="' + defaults.index +'">' +
     		'<label>' + defaults.key + '</label>' + 
     		'<div>' +
     		'<input type="text" disabled=true>' + 
@@ -183,7 +191,7 @@ $(document).ready(function(){
     		break;
 
     		case 'input-number': 
-    		sortable.append('<li data-type="' + typeOfField +'" data-index="' + defaults.index +'">' +
+    		objectOfDraggedElement.replaceWith('<li data-type="' + typeOfField +'" data-index="' + defaults.index +'">' +
     		'<label>' + defaults.key + '</label>' + 
     		'<div>' +
     		'<input type="number" disabled=true>' + 
@@ -192,7 +200,7 @@ $(document).ready(function(){
     		break;
 
     		case 'input-decimal':
-    		sortable.append('<li data-type="' + typeOfField +'" data-index="' + defaults.index +'">' +
+    		objectOfDraggedElement.replaceWith('<li data-type="' + typeOfField +'" data-index="' + defaults.index +'">' +
     		'<label>' + defaults.key + '</label>' + 
     		'<div>' +
     		'<input type="number" disabled=true step="any">' + 
@@ -201,7 +209,7 @@ $(document).ready(function(){
     		break;
 
     		case 'textarea':
-    		sortable.append('<li data-type="' + typeOfField +'" data-index="' + defaults.index +'">' +
+    		objectOfDraggedElement.replaceWith('<li data-type="' + typeOfField +'" data-index="' + defaults.index +'">' +
     		'<label>' + defaults.key + '</label>' + 
     		'<div>' +
     		'<textarea draggable="false" disabled=true> </textarea>' + 
@@ -210,7 +218,7 @@ $(document).ready(function(){
     		break;
 
     		case 'dropdown': 
-    		sortable.append('<li data-type="' + typeOfField +'" data-index="' + defaults.index +'">' +
+    		objectOfDraggedElement.replaceWith('<li data-type="' + typeOfField +'" data-index="' + defaults.index +'">' +
     		'<label>' + defaults.key + '</label>' + 
     		'<div>' +
     		'<select disabled=true> <option value="'+ defaults.dropdown.state_id  +'"   >' + defaults.dropdown.name  + '</option>' + '</select>' + 
@@ -219,32 +227,25 @@ $(document).ready(function(){
     		break;
 
     		case 'datepicker':
-    		sortable.append('<li data-type="' + typeOfField +'" data-index="' + defaults.index +'">' +
+    		objectOfDraggedElement.replaceWith('<li data-type="' + typeOfField +'" data-index="' + defaults.index +'">' +
     		'<label>' + defaults.key + '</label>' + 
     		'<div>' +
     		'<input type="text" value="'+today +'" disabled=true>' + 
     		'</div>'+
     		'</li>');
     		break;
-    		
+
+    		case 'checkbox':
+    		objectOfDraggedElement.replaceWith('<li data-type="' + typeOfField +'" data-index="' + defaults.index  +'">' +
+    		'<label>' + defaults.key  + '</label>' + 
+    		'<div>' +
+    		'<input type="checkbox" disabled=true>' + 
+    		'</div>'+
+    		'</li>');
+    		break;	
     	}
-
-
-
-
-
-
-
-
-
-
     	
     }
       
 
-
-
-
-
-
-})
+});
