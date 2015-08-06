@@ -5,11 +5,14 @@ $(document).ready(function(){
    var index      = null;
    var sortable   = $('.sortable');
    var parent     = $('.parent-zone'); 
+   var edit       = $('.edit').hide();
    var defaults   = {
+    id:  0,
    	key: "Untitled",
    	width: "100px",
    	heigth: "50px",
    	index: 0,
+    status: 1,
    	dropdown: {
         name:       "first choice",
         deleted:    "false",
@@ -18,15 +21,20 @@ $(document).ready(function(){
    }
 
     // Initialize sortable
-    $(".sortable").sortable({	
-    	revert: true,
+    $(".sortable ").sortable({	
+    	revert:  true,
+        helper: "clone",
+        stop:   function(event, ui) {
+             // Prevent click event when dragging element
+             $( event.toElement ).one('click', function(e){ e.stopImmediatePropagation(); } );
+        },
     	update: function(event, ui) {
     		var typeOfField = ui.item.text();
-    	
-    		// Only render new dragged elements (flag: replaced)
+    		// Only render new dragged elements on the list (flag: replaced)
     		if(!ui.item.hasClass('replaced')) {
     			ui.item.addClass('replaced');
-    			renderDraggedFields(typeOfField, ui.item);
+    			var li = renderDraggedFields(typeOfField, ui.item);
+                getDataAttrs(li);
     		};
     		
     	}
@@ -75,19 +83,15 @@ $(document).ready(function(){
 
     // Render properties based on type of fields
     function renderBasedOnTypeOfField(obj) {
-       
     	var today = new Date();
 		var dd = today.getDate();
 		var mm = today.getMonth()
 		var yyyy = today.getFullYear();
 		today = mm+'/'+dd+'/'+yyyy;
-
-		console.log(obj);
         
-
     	switch(obj.formInformation.field_type) {
-    		case 'input': 
-    		sortable.append('<li data-desc="'+obj.description +'" data-custom="'+ obj.isCustom +'" data-required="' +  obj.required +'" data-type="' + obj.formInformation.field_type +'" data-order="' + obj.order +'">' +
+    		case 'text': 
+    		sortable.append('<li data-status="'+ obj.status +'" data-id="'+ obj.id +'"  data-desc="'+obj.description +'" data-custom="'+ obj.isCustom +'" data-required="' +  obj.required +'" data-type="' + obj.formInformation.field_type +'" data-order="' + obj.order +'">' +
     		'<label>' + obj.name + '</label>' + 
     		'<div>' +
     		'<input type="text" disabled=true>' + 
@@ -96,7 +100,7 @@ $(document).ready(function(){
     		break;
 
     		case 'input-number': 
-    		sortable.append('<li  data-desc="'+obj.description +'"  data-custom="'+ obj.isCustom +'" data-required="' +  obj.required +'" data-type="' + obj.formInformation.field_type +'" data-order="' + obj.order +'">' +
+    		sortable.append('<li data-status="'+ obj.status +'" data-id="'+ obj.id +'"  data-desc="'+obj.description +'"  data-custom="'+ obj.isCustom +'" data-required="' +  obj.required +'" data-type="' + obj.formInformation.field_type +'" data-order="' + obj.order +'">' +
     		'<label>' + obj.name + '</label>' + 
     		'<div>' +
     		'<input type="number" disabled=true>' + 
@@ -105,7 +109,7 @@ $(document).ready(function(){
     		break;
 
     		case 'input-decimal':
-    		sortable.append('<li  data-desc="'+obj.description +'"  data-custom="'+ obj.isCustom +'"  data-required="' +  obj.required +'"  data-required="'+  +'"    data-type="' + obj.formInformation.field_type +'" data-order="' + obj.order +'">' +
+    		sortable.append('<li data-status="'+ obj.status +'" data-id="'+ obj.id +'"   data-desc="'+obj.description +'"  data-custom="'+ obj.isCustom +'"  data-required="' +  obj.required +'"  data-required="'+  +'"    data-type="' + obj.formInformation.field_type +'" data-order="' + obj.order +'">' +
     		'<label>' + obj.name + '</label>' + 
     		'<div>' +
     		'<input type="number" disabled=true step="any">' + 
@@ -114,7 +118,7 @@ $(document).ready(function(){
     		break;
 
     		case 'textarea':
-    		sortable.append('<li  data-desc="'+obj.description +'"  data-custom="'+ obj.isCustom +'"   data-required="' +  obj.required +'" data-type="' + obj.formInformation.field_type +'" data-order="' + obj.order +'">' +
+    		sortable.append('<li data-status="'+ obj.status +'" data-id="'+ obj.id +'"   data-desc="'+obj.description +'"  data-custom="'+ obj.isCustom +'"   data-required="' +  obj.required +'" data-type="' + obj.formInformation.field_type +'" data-order="' + obj.order +'">' +
     		'<label>' + obj.name + '</label>' + 
     		'<div>' +
     		'<textarea draggable="false" disabled=true> </textarea>' + 
@@ -123,7 +127,7 @@ $(document).ready(function(){
     		break;
 
     		case 'dropdown': 
-    		sortable.append('<li  data-desc="'+obj.description +'"  data-custom="'+ obj.isCustom +'"  data-required="' +  obj.required +'" data-type="' + obj.formInformation.field_type +'" data-order="' + obj.order +'">' +
+    		sortable.append('<li data-status="'+ obj.status +'" data-id="'+ obj.id +'"   data-desc="'+obj.description +'"  data-custom="'+ obj.isCustom +'"  data-required="' +  obj.required +'" data-type="' + obj.formInformation.field_type +'" data-order="' + obj.order +'">' +
     		'<label>' + obj.name + '</label>' + 
     		'<div>' +
     		'<select disabled=true> <option value="'+ obj.formInformation +'"   >' + obj.formInformation.dropdown_choices[0].name  + '</option>' + '</select>' + 
@@ -132,7 +136,7 @@ $(document).ready(function(){
     		break;
 
     		case 'datepicker':
-    		sortable.append('<li  data-desc="'+obj.description +'"  data-custom="'+ obj.isCustom +'"  data-required="' +  obj.required +'" data-type="' + obj.formInformation.field_type +'" data-order="' + obj.order +'">' +
+    		sortable.append('<li data-status="'+ obj.status +'" data-id="'+ obj.id +'"   data-desc="'+obj.description +'"  data-custom="'+ obj.isCustom +'"  data-required="' +  obj.required +'" data-type="' + obj.formInformation.field_type +'" data-order="' + obj.order +'">' +
     		'<label>' + obj.name + '</label>' + 
     		'<div>' +
     		'<input type="text" value="'+today +'" disabled=true>' + 
@@ -141,7 +145,7 @@ $(document).ready(function(){
     		break;
 
     		case 'checkbox':
-    		sortable.append('<li  data-desc="'+obj.description +'"  data-custom="'+ obj.isCustom +'"  data-required="' +  obj.required +'" data-type="' + obj.formInformation.field_type +'" data-order="' + obj.order +'">' +
+    		sortable.append('<li data-status="'+ obj.status +'" data-id="'+ obj.id +'"   data-desc="'+obj.description +'"  data-custom="'+ obj.isCustom +'"  data-required="' +  obj.required +'" data-type="' + obj.formInformation.field_type +'" data-order="' + obj.order +'">' +
     		'<label>' + obj.name + '</label>' + 
     		'<div>' +
     		'<input type="checkbox" disabled=true>' + 
@@ -177,76 +181,133 @@ $(document).ready(function(){
 		today = mm+'/'+dd+'/'+yyyy;
 
 
+        var text          = $('<li data-status="'+ defaults.status +'" data-id="'+ defaults.id +'"   data-desc=""  data-custom="1" data-required="false" data-type="' + typeOfField +'" data-order="' + defaults.index +'">' +
+            '<label>' + defaults.key + '</label>' + 
+            '<div>' +
+            '<input type="text" disabled=true>' + 
+            '</div>'+
+            '</li>');
+
+        var inputNumber  = $('<li data-status="'+ defaults.status +'" data-id="'+ defaults.id +'"  data-desc=""  data-custom="1" data-required="false" data-type="' + typeOfField +'" data-order="' + defaults.index +'">' +
+            '<label>' + defaults.key + '</label>' + 
+            '<div>' +
+            '<input type="number" disabled=true>' + 
+            '</div>'+
+            '</li>');
+
+        var inputDecimal = $('<li data-status="'+ defaults.status +'" data-id="'+ defaults.id +'"  data-desc="" data-custom="1" data-required="false" data-type="' + typeOfField +'" data-order="' + defaults.index +'">' +
+            '<label>' + defaults.key + '</label>' + 
+            '<div>' +
+            '<input type="number" disabled=true step="any">' + 
+            '</div>'+
+            '</li>');
+
+        var textarea      = $('<li data-status="'+ defaults.status +'" data-id="'+ defaults.id +'"  data-desc="" data-custom="1"  data-type="' + typeOfField +'" data-order="' + defaults.index +'">' +
+            '<label>' + defaults.key + '</label>' + 
+            '<div>' +
+            '<textarea draggable="false" disabled=true> </textarea>' + 
+            '</div>'+
+            '</li>');
+
+        var dropdown      = $('<li data-status="'+ defaults.status +'" data-id="'+ defaults.id +'"  data-desc="" data-dropdown="" data-custom="1" data-required="false" data-type="' + typeOfField +'" data-order="' + defaults.index +'">' +
+            '<label>' + defaults.key + '</label>' + 
+            '<div>' +
+            '<select disabled=true> <option value="'+ defaults.dropdown.state_id  +'"   >' + defaults.dropdown.name  + '</option>' + '</select>' + 
+            '</div>'+
+            '</li>');
+
+        var datepicker    = $('<li data-status="'+ defaults.status +'" data-id="'+ defaults.id +'"  data-desc="" data-custom="1" data-required="false" data-type="' + typeOfField +'" data-order="' + defaults.index +'">' +
+            '<label>' + defaults.key + '</label>' + 
+            '<div>' +
+            '<input type="text" value="'+today +'" disabled=true>' + 
+            '</div>'+
+            '</li>');
+
+        var checkbox      = $('<li data-status="'+ defaults.status +'" data-id="'+ defaults.id +'"  data-desc="" data-custom="1" data-required="false" data-type="' + typeOfField +'" data-order="' + defaults.index  +'">' +
+            '<label>' + defaults.key  + '</label>' + 
+            '<div>' +
+            '<input type="checkbox" disabled=true>' + 
+            '</div>'+
+            '</li>');
+
+
     	switch(typeOfField) {
-    		case 'input': 
-    		objectOfDraggedElement.replaceWith('<li  data-desc=""  data-custom="1" data-required="false" data-type="' + typeOfField +'" data-order="' + defaults.index +'">' +
-    		'<label>' + defaults.key + '</label>' + 
-    		'<div>' +
-    		'<input type="text" disabled=true>' + 
-    		'</div>'+
-    		'</li>');
+    		case 'text': 
+    		objectOfDraggedElement.replaceWith(text);
+            return text;
     		break;
 
     		case 'input-number': 
-    		objectOfDraggedElement.replaceWith('<li data-desc=""  data-custom="1" data-required="false" data-type="' + typeOfField +'" data-order="' + defaults.index +'">' +
-    		'<label>' + defaults.key + '</label>' + 
-    		'<div>' +
-    		'<input type="number" disabled=true>' + 
-    		'</div>'+
-    		'</li>');
+    		objectOfDraggedElement.replaceWith(inputNumber);
+            return inputNumber;
     		break;
 
     		case 'input-decimal':
-    		objectOfDraggedElement.replaceWith('<li data-desc="" data-custom="1" data-required="false" data-type="' + typeOfField +'" data-order="' + defaults.index +'">' +
-    		'<label>' + defaults.key + '</label>' + 
-    		'<div>' +
-    		'<input type="number" disabled=true step="any">' + 
-    		'</div>'+
-    		'</li>');
+    		objectOfDraggedElement.replaceWith(inputDecimal);
+            return inputDecimal;
     		break;
 
     		case 'textarea':
-    		objectOfDraggedElement.replaceWith('<li data-desc="" data-custom="1"  data-type="' + typeOfField +'" data-order="' + defaults.index +'">' +
-    		'<label>' + defaults.key + '</label>' + 
-    		'<div>' +
-    		'<textarea draggable="false" disabled=true> </textarea>' + 
-    		'</div>'+
-    		'</li>');
+    		objectOfDraggedElement.replaceWith(textarea);
+            return textarea;
     		break;
 
     		case 'dropdown': 
-    		objectOfDraggedElement.replaceWith('<li data-desc="" data-dropdown="" data-custom="1" data-required="false" data-type="' + typeOfField +'" data-order="' + defaults.index +'">' +
-    		'<label>' + defaults.key + '</label>' + 
-    		'<div>' +
-    		'<select disabled=true> <option value="'+ defaults.dropdown.state_id  +'"   >' + defaults.dropdown.name  + '</option>' + '</select>' + 
-    		'</div>'+
-    		'</li>');
+    		objectOfDraggedElement.replaceWith(dropdown);
+            return dropdown;
     		break;
 
     		case 'datepicker':
-    		objectOfDraggedElement.replaceWith('<li data-desc="" data-custom="1" data-required="false" data-type="' + typeOfField +'" data-order="' + defaults.index +'">' +
-    		'<label>' + defaults.key + '</label>' + 
-    		'<div>' +
-    		'<input type="text" value="'+today +'" disabled=true>' + 
-    		'</div>'+
-    		'</li>');
+    		objectOfDraggedElement.replaceWith(datepicker);
+            return datepicker
     		break;
 
     		case 'checkbox':
-    		objectOfDraggedElement.replaceWith('<li data-desc="" data-custom="1" data-required="false" data-type="' + typeOfField +'" data-order="' + defaults.index  +'">' +
-    		'<label>' + defaults.key  + '</label>' + 
-    		'<div>' +
-    		'<input type="checkbox" disabled=true>' + 
-    		'</div>'+
-    		'</li>');
+    		objectOfDraggedElement.replaceWith(checkbox);
+            return checkbox;
     		break;	
     	}
     	
     }
+     // Call edit function for clicked element
+     $(".sortable").on('click', 'li', function(event) {
 
-     $(".sortable").on('click', 'li', function() {
-     	alert('tooo');
+        var clickedElement;
+
+         // If click is on li element then you don't have parents('li')
+         if($(event.target).parents('li').length === 0) {
+            clickedElement = $(event.target);
+         } else {
+            clickedElement = $(event.target).parents('li');
+         }
+         getDataAttrs(clickedElement);
+
      });
+
+     // Get data attrs needed for edit function
+     function getDataAttrs(clickedElement) {
+        // @param obj {object} - object of data attrs of li element
+        var obj = {
+            id:        '' + clickedElement.data('id') + '',
+            type:      '' + clickedElement.data('type') + '',
+            custom:    '' + clickedElement.data('custom')  + '',
+            required:  '' + clickedElement.data('required') + '',
+            order:     '' + clickedElement.data('order') + '',
+            desc:      '' + clickedElement.data('desc') + ''
+        };
+        editField(clickedElement, obj);
+     }
+
+     // Edid field function 
+     function editField(clickedElement, obj) {
+
+        // Show edit field
+        edit.hide();
+        edit.show();
+        console.log(clickedElement.data('type'));
+
+     }
+
 
 
       

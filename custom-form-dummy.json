@@ -58,7 +58,7 @@
             "order": 0,
             "required": true,
             "formInformation": {
-            "field_type": "input",
+            "field_type": "text",
             "width": "",
             "heigth": "",
             "dropdown_choices": []
