@@ -321,13 +321,26 @@ $(document).ready(function(){
         $("#edit-form").remove();
 
         if(isCustom !== 0) {
-            edit.append('<form id="edit-form" action="#" novalidate="novalidate">' +                           
+            edit.append('<div id="edit-form" >' +                           
             '<h3> Field Properties </h3>' + 
             '<h3> Behavior </h3>'+
+            '<h3> Field label </h3>'+ 
             '<input type="checkbox">Required when submiting form <br>'+
-            '<input type="text" value="' + labelVal + '">'+
-            '</form>');
+            '<input type="text" value="' + labelVal + '"> <br>'+
+            '<button class="save" type="button">Save</button>'+
+            '<button class="cancel" type="button">Cancel</button>'+
+            '</div>');
         }
+
+       /* $('.save').click( function() {
+            var input = $('#edit-form input[type=text]').val();
+            clickedElement.find('label').html('<label>' + input   + '</label>')
+        }); */
+
+        $('#edit-form input[type=text]').on('input', function(){
+             var input = $('#edit-form input[type=text]').val();
+             clickedElement.find('label').html('<label>' + input   + '</label>')
+        })
 
      }
 
