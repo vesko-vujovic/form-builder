@@ -304,7 +304,30 @@ $(document).ready(function(){
         // Show edit field
         edit.hide();
         edit.show();
-        console.log(clickedElement.data('type'));
+
+        // Generate form based on field type
+        switch(clickedElement.data('type')) {
+            case 'text': 
+            editTextType($(clickedElement));
+
+        }
+
+     }
+
+     // Render form for text type
+     function editTextType(clickedElement) {
+        var isCustom  = clickedElement.data('custom');
+        var labelVal  = clickedElement.find('label').text(); 
+        $("#edit-form").remove();
+
+        if(isCustom !== 0) {
+            edit.append('<form id="edit-form" action="#" novalidate="novalidate">' +                           
+            '<h3> Field Properties </h3>' + 
+            '<h3> Behavior </h3>'+
+            '<input type="checkbox">Required when submiting form <br>'+
+            '<input type="text" value="' + labelVal + '">'+
+            '</form>');
+        }
 
      }
 
