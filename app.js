@@ -1,11 +1,15 @@
 $(document).ready(function(){
    // Main functions for this app 
    
+   var textareaMaxSize = '300px'
+
+
+   
    // Defaults for this app  
    var index      = null;
    var sortable   = $('.sortable');
    var parent     = $('.parent-zone'); 
-   var edit       = $('.edit').hide();
+   var edit       = $('.edit');
    var defaults   = {
     id:  0,
    	key: "Untitled",
@@ -91,7 +95,7 @@ $(document).ready(function(){
         
     	switch(obj.formInformation.field_type) {
     		case 'text': 
-    		sortable.append('<li data-status="'+ obj.status +'" data-id="'+ obj.id +'"  data-desc="'+obj.description +'" data-custom="'+ obj.isCustom +'" data-required="' +  obj.required +'" data-type="' + obj.formInformation.field_type +'" data-order="' + obj.order +'">' +
+    		sortable.append('<li  class="quarter" data-status="'+ obj.status +'" data-id="'+ obj.id +'"  data-desc="'+obj.description +'" data-custom="'+ obj.isCustom +'" data-required="' +  obj.required +'" data-type="' + obj.formInformation.field_type +'" data-order="' + obj.order +'">' +
     		'<label>' + obj.name + '</label>' + 
     		'<div>' +
     		'<input type="text" disabled=true>' + 
@@ -100,7 +104,7 @@ $(document).ready(function(){
     		break;
 
     		case 'input-number': 
-    		sortable.append('<li data-status="'+ obj.status +'" data-id="'+ obj.id +'"  data-desc="'+obj.description +'"  data-custom="'+ obj.isCustom +'" data-required="' +  obj.required +'" data-type="' + obj.formInformation.field_type +'" data-order="' + obj.order +'">' +
+    		sortable.append('<li class="quarter" data-status="'+ obj.status +'" data-id="'+ obj.id +'"  data-desc="'+obj.description +'"  data-custom="'+ obj.isCustom +'" data-required="' +  obj.required +'" data-type="' + obj.formInformation.field_type +'" data-order="' + obj.order +'">' +
     		'<label>' + obj.name + '</label>' + 
     		'<div>' +
     		'<input type="number" disabled=true>' + 
@@ -109,7 +113,7 @@ $(document).ready(function(){
     		break;
 
     		case 'input-decimal':
-    		sortable.append('<li data-status="'+ obj.status +'" data-id="'+ obj.id +'"   data-desc="'+obj.description +'"  data-custom="'+ obj.isCustom +'"  data-required="' +  obj.required +'"  data-required="'+  +'"    data-type="' + obj.formInformation.field_type +'" data-order="' + obj.order +'">' +
+    		sortable.append('<li class="quarter" data-status="'+ obj.status +'" data-id="'+ obj.id +'"   data-desc="'+obj.description +'"  data-custom="'+ obj.isCustom +'"  data-required="' +  obj.required +'"  data-required="'+  +'"    data-type="' + obj.formInformation.field_type +'" data-order="' + obj.order +'">' +
     		'<label>' + obj.name + '</label>' + 
     		'<div>' +
     		'<input type="number" disabled=true step="any">' + 
@@ -118,7 +122,7 @@ $(document).ready(function(){
     		break;
 
     		case 'textarea':
-    		sortable.append('<li data-status="'+ obj.status +'" data-id="'+ obj.id +'"   data-desc="'+obj.description +'"  data-custom="'+ obj.isCustom +'"   data-required="' +  obj.required +'" data-type="' + obj.formInformation.field_type +'" data-order="' + obj.order +'">' +
+    		sortable.append('<li class="quarter" data-status="'+ obj.status +'" data-id="'+ obj.id +'"   data-desc="'+obj.description +'"  data-custom="'+ obj.isCustom +'"   data-required="' +  obj.required +'" data-type="' + obj.formInformation.field_type +'" data-order="' + obj.order +'">' +
     		'<label>' + obj.name + '</label>' + 
     		'<div>' +
     		'<textarea draggable="false" disabled=true> </textarea>' + 
@@ -127,7 +131,7 @@ $(document).ready(function(){
     		break;
 
     		case 'dropdown': 
-    		sortable.append('<li data-status="'+ obj.status +'" data-id="'+ obj.id +'"   data-desc="'+obj.description +'"  data-custom="'+ obj.isCustom +'"  data-required="' +  obj.required +'" data-type="' + obj.formInformation.field_type +'" data-order="' + obj.order +'">' +
+    		sortable.append('<li class="quarter" data-status="'+ obj.status +'" data-id="'+ obj.id +'"   data-desc="'+obj.description +'"  data-custom="'+ obj.isCustom +'"  data-required="' +  obj.required +'" data-type="' + obj.formInformation.field_type +'" data-order="' + obj.order +'">' +
     		'<label>' + obj.name + '</label>' + 
     		'<div>' +
     		'<select disabled=true> <option value="'+ obj.formInformation +'"   >' + obj.formInformation.dropdown_choices[0].name  + '</option>' + '</select>' + 
@@ -136,7 +140,7 @@ $(document).ready(function(){
     		break;
 
     		case 'datepicker':
-    		sortable.append('<li data-status="'+ obj.status +'" data-id="'+ obj.id +'"   data-desc="'+obj.description +'"  data-custom="'+ obj.isCustom +'"  data-required="' +  obj.required +'" data-type="' + obj.formInformation.field_type +'" data-order="' + obj.order +'">' +
+    		sortable.append('<li class="quarter" data-status="'+ obj.status +'" data-id="'+ obj.id +'"   data-desc="'+obj.description +'"  data-custom="'+ obj.isCustom +'"  data-required="' +  obj.required +'" data-type="' + obj.formInformation.field_type +'" data-order="' + obj.order +'">' +
     		'<label>' + obj.name + '</label>' + 
     		'<div>' +
     		'<input type="text" value="'+today +'" disabled=true>' + 
@@ -145,7 +149,7 @@ $(document).ready(function(){
     		break;
 
     		case 'checkbox':
-    		sortable.append('<li data-status="'+ obj.status +'" data-id="'+ obj.id +'"   data-desc="'+obj.description +'"  data-custom="'+ obj.isCustom +'"  data-required="' +  obj.required +'" data-type="' + obj.formInformation.field_type +'" data-order="' + obj.order +'">' +
+    		sortable.append('<li class="quarter" data-status="'+ obj.status +'" data-id="'+ obj.id +'"   data-desc="'+obj.description +'"  data-custom="'+ obj.isCustom +'"  data-required="' +  obj.required +'" data-type="' + obj.formInformation.field_type +'" data-order="' + obj.order +'">' +
     		'<label>' + obj.name + '</label>' + 
     		'<div>' +
     		'<input type="checkbox" disabled=true>' + 
@@ -181,49 +185,49 @@ $(document).ready(function(){
 		today = mm+'/'+dd+'/'+yyyy;
 
 
-        var text          = $('<li data-status="'+ defaults.status +'" data-id="'+ defaults.id +'"   data-desc=""  data-custom="1" data-required="false" data-type="' + typeOfField +'" data-order="' + defaults.index +'">' +
+        var text          = $('<li class="quarter" data-status="'+ defaults.status +'" data-id="'+ defaults.id +'"   data-desc=""  data-custom="1" data-required="false" data-type="' + typeOfField +'" data-order="' + defaults.index +'">' +
             '<label>' + defaults.key + '</label>' + 
             '<div>' +
             '<input type="text" disabled=true>' + 
             '</div>'+
             '</li>');
 
-        var inputNumber  = $('<li data-status="'+ defaults.status +'" data-id="'+ defaults.id +'"  data-desc=""  data-custom="1" data-required="false" data-type="' + typeOfField +'" data-order="' + defaults.index +'">' +
+        var inputNumber  = $('<li class="quarter" data-status="'+ defaults.status +'" data-id="'+ defaults.id +'"  data-desc=""  data-custom="1" data-required="false" data-type="' + typeOfField +'" data-order="' + defaults.index +'">' +
             '<label>' + defaults.key + '</label>' + 
             '<div>' +
             '<input type="number" disabled=true>' + 
             '</div>'+
             '</li>');
 
-        var inputDecimal = $('<li data-status="'+ defaults.status +'" data-id="'+ defaults.id +'"  data-desc="" data-custom="1" data-required="false" data-type="' + typeOfField +'" data-order="' + defaults.index +'">' +
+        var inputDecimal = $('<li class="quarter" data-status="'+ defaults.status +'" data-id="'+ defaults.id +'"  data-desc="" data-custom="1" data-required="false" data-type="' + typeOfField +'" data-order="' + defaults.index +'">' +
             '<label>' + defaults.key + '</label>' + 
             '<div>' +
             '<input type="number" disabled=true step="any">' + 
             '</div>'+
             '</li>');
 
-        var textarea      = $('<li data-status="'+ defaults.status +'" data-id="'+ defaults.id +'"  data-desc="" data-custom="1"  data-type="' + typeOfField +'" data-order="' + defaults.index +'">' +
+        var textarea      = $('<li class="quarter" data-status="'+ defaults.status +'" data-id="'+ defaults.id +'"  data-desc="" data-custom="1"  data-type="' + typeOfField +'" data-order="' + defaults.index +'">' +
             '<label>' + defaults.key + '</label>' + 
             '<div>' +
             '<textarea draggable="false" disabled=true> </textarea>' + 
             '</div>'+
             '</li>');
 
-        var dropdown      = $('<li data-status="'+ defaults.status +'" data-id="'+ defaults.id +'"  data-desc="" data-dropdown="" data-custom="1" data-required="false" data-type="' + typeOfField +'" data-order="' + defaults.index +'">' +
+        var dropdown      = $('<li class="quarter" data-status="'+ defaults.status +'" data-id="'+ defaults.id +'"  data-desc="" data-dropdown="" data-custom="1" data-required="false" data-type="' + typeOfField +'" data-order="' + defaults.index +'">' +
             '<label>' + defaults.key + '</label>' + 
             '<div>' +
             '<select disabled=true> <option value="'+ defaults.dropdown.state_id  +'"   >' + defaults.dropdown.name  + '</option>' + '</select>' + 
             '</div>'+
             '</li>');
 
-        var datepicker    = $('<li data-status="'+ defaults.status +'" data-id="'+ defaults.id +'"  data-desc="" data-custom="1" data-required="false" data-type="' + typeOfField +'" data-order="' + defaults.index +'">' +
+        var datepicker    = $('<li class="quarter" data-status="'+ defaults.status +'" data-id="'+ defaults.id +'"  data-desc="" data-custom="1" data-required="false" data-type="' + typeOfField +'" data-order="' + defaults.index +'">' +
             '<label>' + defaults.key + '</label>' + 
             '<div>' +
             '<input type="text" value="'+today +'" disabled=true>' + 
             '</div>'+
             '</li>');
 
-        var checkbox      = $('<li data-status="'+ defaults.status +'" data-id="'+ defaults.id +'"  data-desc="" data-custom="1" data-required="false" data-type="' + typeOfField +'" data-order="' + defaults.index  +'">' +
+        var checkbox      = $('<li class="quarter" data-status="'+ defaults.status +'" data-id="'+ defaults.id +'"  data-desc="" data-custom="1" data-required="false" data-type="' + typeOfField +'" data-order="' + defaults.index  +'">' +
             '<label>' + defaults.key  + '</label>' + 
             '<div>' +
             '<input type="checkbox" disabled=true>' + 
@@ -302,13 +306,35 @@ $(document).ready(function(){
      function editField(clickedElement, obj) {
 
         // Show edit field
-        edit.hide();
-        edit.show();
-
+        edit.empty();
+    
         // Generate form based on field type
         switch(clickedElement.data('type')) {
             case 'text': 
             editTextType($(clickedElement));
+            break;
+
+            case 'datepicker':
+            editTextType($(clickedElement));
+            break;
+
+            case 'input-number':
+            editTextType($(clickedElement));
+            break;
+
+            case 'input-decimal':
+            editTextType($(clickedElement));
+            break;
+            
+            case 'textarea': 
+            editTextArea($(clickedElement));
+            break;
+
+            case 'dropdown':
+            editDropdown($(clickedElement));
+
+
+
 
         }
 
@@ -316,35 +342,219 @@ $(document).ready(function(){
 
      // Render form for text type
      function editTextType(clickedElement) {
-        var isCustom  = clickedElement.data('custom');
-        var labelVal  = clickedElement.find('label').text(); 
-        $("#edit-form").remove();
+        
+        var isCustom       = clickedElement.data('custom');
+        var description    = clickedElement.data('desc');
+        var labelVal       = clickedElement.find('label').text();
+        
 
         if(isCustom !== 0) {
-            edit.append('<div id="edit-form" >' +                           
+            edit.append('<div id="edit-zone" >' +                           
             '<h3> Field Properties </h3>' + 
-            '<h3> Behavior </h3>'+
+            '<h3> Behavior '+
+            '<input type="checkbox" value="false">Required when submiting form </h3>'+
             '<h3> Field label </h3>'+ 
-            '<input type="checkbox">Required when submiting form <br>'+
             '<input type="text" value="' + labelVal + '"> <br>'+
-            '<button class="save" type="button">Save</button>'+
-            '<button class="cancel" type="button">Cancel</button>'+
+            '<h3> Description </h3>'+
+            '<input class="desc" type="text" value="' + description + '"> <br>'+
+            '<h3> Field Size </h3>'+
+            '<select class="select-size">'+
+            '<option value="quarter">--chose-- </option>'+
+            '<option value="quarter"> 25% </option>'+
+            '<option value="half"> 50%  </option>'+
+            '<option value="third"> 75%  </option>'+
+            '<option value="full"> 100%  </option>'+
+            '</select>'+
             '</div>');
+        } 
+
+        // If data-required is true check the chekbox
+        if(clickedElement.data('required') === true) {
+            $('#edit-zone input[type=checkbox]').attr('checked', true);
         }
 
-       /* $('.save').click( function() {
-            var input = $('#edit-form input[type=text]').val();
-            clickedElement.find('label').html('<label>' + input   + '</label>')
-        }); */
+        // Change label text of current element
+        $('#edit-zone input[type=text]').on('input', function() {
+             var input = $('#edit-zone input[type=text]').val(); 
+             if( input.length === 0 ) {
+                input = 'Untitled';
+             }
+            
+             clickedElement.find('label').html(input);
+        });
 
-        $('#edit-form input[type=text]').on('input', function(){
-             var input = $('#edit-form input[type=text]').val();
-             clickedElement.find('label').html('<label>' + input   + '</label>')
-        })
+        // Change data-required on current element
+        $('#edit-zone input[type=checkbox]').change(function() {
+
+             var checkbox = $('#edit-zone input[type=checkbox]').is(':checked');
+             clickedElement.attr('data-required', checkbox);
+        });
+
+        // Change data-desc attr
+        $('.desc').on('input', function() {
+             var desc = $('.desc').val(); 
+             clickedElement.attr('data-desc', desc);
+        });
+         
+        //  Change size
+        $('#edit-zone .select-size').change( function() {
+            var selectedClass = $(this).val();
+            clickedElement.removeClass('half quarter full third');
+            $(clickedElement).addClass(''+ selectedClass +'');
+        });
+
+    
 
      }
 
 
+     // Edit textarea field
+     function editTextArea(clickedElement){
+        var isCustom       = clickedElement.data('custom');
+        var description    = clickedElement.data('desc');
+        var labelVal       = clickedElement.find('label').text();
+
+        
+
+        if(isCustom !== 0) {
+            edit.append('<div id="edit-zone" >' +                           
+            '<h3> Field Properties </h3>' + 
+            '<h3> Behavior '+
+            '<input type="checkbox" value="false">Required when submiting form </h3>'+
+            '<h3> Field label </h3>'+ 
+            '<input type="text" value="' + labelVal + '"> <br>'+
+            '<h3> Description </h3>'+
+            '<input class="desc" type="text" value="' + description + '"> <br>'+
+            '<h3> Field Size </h3>'+
+            '<select class="select-size">'+
+            '<option value="quarter">--chose-- </option>'+
+            '<option value="quarter"> 25% </option>'+
+            '<option value="half"> 50%  </option>'+
+            '<option value="third"> 75%  </option>'+
+            '<option value="full"> 100%  </option>'+
+            '</select>'+
+            '<h3> Heigth of element  </h3>'+
+            '<input class="size" min="10" max="300" type="number">'+
+            '</div>');
+        } 
+
+        // If data-required is true check the chekbox
+        if(clickedElement.data('required') === true) {
+            $('#edit-zone input[type=checkbox]').attr('checked', true);
+        }
+
+        // Change label text of current element
+        $('#edit-zone input[type=text]').on('input', function() {
+             var input = $('#edit-zone input[type=text]').val(); 
+             if( input.length === 0 ) {
+                input = 'Untitled';
+             }
+            
+             clickedElement.find('label').html(input);
+        });
+
+        // Change data-required on current element
+        $('#edit-zone input[type=checkbox]').change(function() {
+
+             var checkbox = $('#edit-zone input[type=checkbox]').is(':checked');
+             clickedElement.attr('data-required', checkbox);
+        });
+
+        // Change data-desc attr
+        $('.desc').on('input', function() {
+             var desc = $('.desc').val(); 
+             clickedElement.attr('data-desc', desc);
+        });
+         
+        //  
+        $('#edit-zone .select-size').change( function() {
+            var selectedClass = $(this).val();
+            clickedElement.removeClass('half quarter full third');
+            $(clickedElement).addClass(''+ selectedClass +'');
+        });
+
+        // Get and size of textarea
+         $('.size').on('input', function() {
+             var textAreaSize = $('.size').val() +'px';
+             clickedElement.find('textarea').css('height', textAreaSize + '');
+             
+        });
+
+     }
+
+     function editDropdown(clickedElement) {
+
+        var isCustom       = clickedElement.data('custom');
+        var description    = clickedElement.data('desc');
+        var labelVal       = clickedElement.find('label').text();
+        
+
+        if(isCustom !== 0) {
+            edit.append('<div id="edit-zone" >' +                           
+            '<h3> Field Properties </h3>' + 
+            '<h3> Behavior '+
+            '<input type="checkbox" value="false">Required when submiting form </h3>'+
+            '<h3> Field label </h3>'+ 
+            '<input type="text" value="' + labelVal + '"> <br>'+
+            '<h3> Description </h3>'+
+            '<input class="desc" type="text" value="' + description + '"> <br>'+
+            '<h3> Field Size </h3>'+
+            '<select class="select-size">'+
+            '<option value="quarter">--chose-- </option>'+
+            '<option value="quarter"> 25% </option>'+
+            '<option value="half"> 50%  </option>'+
+            '<option value="third"> 75%  </option>'+
+            '<option value="full"> 100%  </option>'+
+            '</select>'+
+            '<h3> Dropdown Choices </h3>'+
+            '<p class="add"> Add  </p>'+
+            '<div class="choice">'+
+            '</div>'+
+            '</div>');
+        } 
+
+        // If data-required is true check the chekbox
+        if(clickedElement.data('required') === true) {
+            $('#edit-zone input[type=checkbox]').attr('checked', true);
+        }
+
+        // Change label text of current element
+        $('#edit-zone input[type=text]').on('input', function() {
+             var input = $('#edit-zone input[type=text]').val(); 
+             if( input.length === 0 ) {
+                input = 'Untitled';
+             }
+            
+             clickedElement.find('label').html(input);
+        });
+
+        // Change data-required on current element
+        $('#edit-zone input[type=checkbox]').change(function() {
+
+             var checkbox = $('#edit-zone input[type=checkbox]').is(':checked');
+             clickedElement.attr('data-required', checkbox);
+        });
+
+        // Change data-desc attr
+        $('.desc').on('input', function() {
+             var desc = $('.desc').val(); 
+             clickedElement.attr('data-desc', desc);
+        });
+         
+        //  Change size
+        $('#edit-zone .select-size').change( function() {
+            var selectedClass = $(this).val();
+            clickedElement.removeClass('half quarter full third');
+            $(clickedElement).addClass(''+ selectedClass +'');
+        });
+        // Add new choice
+        $('.add').on('click', function(){
+            var choice = $('.choice').empty();
+            choice.append('<span> Delete <span><input type="text"> <p class="add"> Add  </p>');
+
+        });
+
+     }
 
       
 

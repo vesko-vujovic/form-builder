@@ -9,15 +9,14 @@
 }
 
 .sortable {
+	padding: 0;
 	height: 400px; 
 	border-style: solid;
 	border-color: black;
-
 }
 
 .sortable li {
 	display: inline-block;
-	padding-right: 15px;
 	width: ;
 
 }
@@ -31,10 +30,35 @@
 	padding: 0;
 }
 
-.edit {
+#edit-zone {
+	border-style: solid;
+	border-color: black;
 	float: right;
 	width: 30%;
 	height: 400px;
-	border-color: black;
-	border-style: solid;
+	
 }
+
+.half {
+	width: 50%;
+}
+
+.quarter {
+	width: 25%;
+}
+
+.full {
+	width: 100%;
+}
+
+.third {
+	width: 75%;
+}
+
+ li input, li select, li textarea {
+	width: 100%;
+    resize: none;
+
+}
+
+
